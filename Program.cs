@@ -6,9 +6,6 @@ namespace NoGraphics
     class Program
     {
         const string InPath = "image.png";
-        const string NoGraphicsPath = "out1.png";
-        const string GraphicsPath = "out2.png";
-        const string IntermidiatePath = "intermidiate.png";
 
         static void Main(string[] args)
         {
@@ -16,12 +13,21 @@ namespace NoGraphics
             var bitmap = UseGraphics(image);
 
             var clone = bitmap.Clone() as Image;
-            clone.Save(NoGraphicsPath);
+            
+            // Empty on Linux. Blue square on Windows.
+            clone.Save("out1.png");
 
-            bitmap.Save(IntermidiatePath);
-            File.Delete(IntermidiatePath);
+            var notClone = new Bitmap(bitmap);
+            
+            // Blue square on both platforms.
+            notClone.Save("out2.png");
+
+            bitmap.Save("intermidiate.png");
+            File.Delete("intermidiate.png");
             var clone2 = bitmap.Clone() as Image;
-            clone2.Save(GraphicsPath);
+            
+            // Blue square on both platforms.
+            clone2.Save("out3.png");
         }
 
         private static Bitmap UseGraphics(Image image)
